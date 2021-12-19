@@ -1,6 +1,7 @@
 package com.ilya.test.mydemoproject.entities;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Check;
 
 import javax.persistence.*;
@@ -13,7 +14,8 @@ import java.time.LocalDate;
  */
 @Data
 @Entity
-@Table(name = "users")
+@Table(name = "my_users")
+@NoArgsConstructor
 public class User {
 
     @Id
@@ -26,12 +28,11 @@ public class User {
     @Column(name = "name", nullable = false,length = 25)
     private String name;
 
-    @Column(name = "year", nullable = false, columnDefinition = "year int CHECK (year > 0 AND year < 110)")
+    @Column(name = "year", nullable = false, columnDefinition = "int CHECK (year > 0 AND year < 110)")
     private int year;
 
-    @Column(name = "local_date")
-    @Temporal(TemporalType.DATE)
-    private LocalDate localDate;
+    /*@Column(name = "local_date")
+    private LocalDate localDate;*/
 
     @Column(name = "password",nullable = false)
     private String password;

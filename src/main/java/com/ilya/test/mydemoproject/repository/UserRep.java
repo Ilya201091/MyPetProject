@@ -12,7 +12,7 @@ import javax.persistence.Id;
  */
 
 @Repository
-public interface UserRep extends CrudRepository<User, Id> {
+public interface UserRep extends CrudRepository<User, Long> {
 
-    public User findByUserName(String name);
+     User findByUserName(String name);
 }
