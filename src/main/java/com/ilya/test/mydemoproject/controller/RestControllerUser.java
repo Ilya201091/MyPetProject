@@ -3,8 +3,10 @@ package com.ilya.test.mydemoproject.controller;
 import com.ilya.test.mydemoproject.dto.UserDto;
 import com.ilya.test.mydemoproject.entities.User;
 import com.ilya.test.mydemoproject.exception.LoginExistsException;
+import com.ilya.test.mydemoproject.exception.NotIdUserException;
 import com.ilya.test.mydemoproject.exception.NotNameUserException;
 import com.ilya.test.mydemoproject.service.UserService;
+import com.sun.xml.bind.v2.TODO;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +35,7 @@ public class RestControllerUser {
         this.userService = userService;
     }
 
-    @GetMapping ("/name")
+    @GetMapping ()
     public ResponseEntity getUserByName(@RequestParam String name) throws NotNameUserException {
         try {
             User user = userService.getUserByName(name);
@@ -61,6 +63,29 @@ public class RestControllerUser {
             log.debug("IN register exception");
             return ResponseEntity.badRequest().body("Произошла ошибка");
         }
+    }
+
+    @GetMapping
+    private ResponseEntity getById(@RequestParam Long id) {
+        try {
+            User user = userService.getById(id);
+            log.info("IN getById user: {} was displayed", id);
+            return ResponseEntity.ok().body(modelMapper.map(user,UserDto.class));
+        }
+        catch (NotIdUserException exception) {
+            log.warn("IN getById user: {} missing", id);
+            return ResponseEntity.badRequest().body(exception.getMessage());
+        }
+        catch (Exception ex) {
+            log.debug("IN getById exception");
+            return ResponseEntity.badRequest().body(ex.getMessage());
+        }
+    }
+
+    @DeleteMapping("/delete")
+    public ResponseEntity delete() {
+        return null;
+        //TODO
     }
 
 }
